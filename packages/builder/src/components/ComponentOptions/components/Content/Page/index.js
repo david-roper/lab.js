@@ -50,6 +50,13 @@ const Footer = () => {
               <Row form>
                 <Col>
                   <InputGroup>
+                  <Field
+                      name="backButtonText"
+                      component={ Input }
+                      placeholder="← Back"
+                      default="← Back"
+                      disabled={ values.submitButtonPosition === 'hidden' }
+                    />
                     <Field
                       name="submitButtonText"
                       component={ Input }
@@ -67,6 +74,18 @@ const Footer = () => {
                       </option>
                       <option value="hidden">
                         Hide submit button
+                      </option>
+                    </Field>
+                    <Field
+                      name="backButtonPosition" id="backButtonPosition"
+                      className="form-control custom-select"
+                      as="select"
+                    >
+                      <option value="right">
+                        Show back button
+                      </option>
+                      <option value="hidden">
+                        Hide back button
                       </option>
                     </Field>
                   </InputGroup>
