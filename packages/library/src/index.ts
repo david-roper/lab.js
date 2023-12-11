@@ -1,8 +1,8 @@
 export const version = '23.0.0-alpha2'
 export const build = {
-  //@ts-ignore Injected during build
+  //@ts-expect-error - Injected during build
   flavor: <string>BUILD_FLAVOR,
-  //@ts-ignore Injected during build
+  //@ts-expect-error - Injected during build
   commit: <string>BUILD_COMMIT,
 }
 
@@ -16,3 +16,4 @@ export * as canvas from './canvas'
 export * as plugins from './plugins'
 
 export * as util from './util'
+

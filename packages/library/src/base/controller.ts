@@ -1,4 +1,4 @@
-import { FlipIterable, FlipIterator } from './util/iterators/flipIterable'
+import { FlipIterable, type FlipIterator } from './util/iterators/flipIterable'
 import { Component } from './component'
 import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'
@@ -15,7 +15,7 @@ export class Controller<C extends Component = Component> extends Emitter {
   context: Record<string, any>
   private lock: Lock
 
-  flipHandlers: Function[]
+  flipHandlers: ((...args: any[]) => any)[]
 
   constructor({
     root,
@@ -30,7 +30,7 @@ export class Controller<C extends Component = Component> extends Emitter {
 
     // Study root component
     this.root = root
-    //@ts-ignore
+    //@ts-expect-error - LEGACY
     this.root.internals.controller = this
 
     // Global data container
@@ -103,7 +103,7 @@ export class Controller<C extends Component = Component> extends Emitter {
     await this.emit('end', flipData)
   }
 
-  continue(sender: Component, flipData: any) {
+  continue(_: Component, flipData: any) {
     // Continue loop
     const p = this.waitFor('flip')
     this.lock.release(flipData)
