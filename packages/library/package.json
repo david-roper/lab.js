@@ -51,10 +51,10 @@
   "main": "dist/es6/index.js",
   "types": "dist/es6/index.d.ts",
   "scripts": {
-    "build": "yarn build:js && yarn build:css",
+    "build": "yarn build:js && yarn build:css && yarn build:legacy",
     "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/css/lab.css src/starterkit/lib/lab.css",
     "build:js": "tsc",
-    "build:umd": "",
+    "build:legacy": "node scripts/build_legacy.js",
     "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
     "dev": "concurrently \"yarn dev:css\" \"yarn dev:js\"",
