@@ -24,7 +24,6 @@ export class Page extends Form {
   }
 
   onPrepare() {
-    console.log('onPrepare')
     // Generate content
     this.options.content = makePage(this.options.items, {
       submitButtonText: this.options.submitButtonText,

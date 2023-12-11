@@ -50,7 +50,7 @@ await persistState(store)
 // Enable preview service worker
 let previewActive
 try {
-  await installPreviewWorker(store)
+  await installPreviewWorker()
   previewActive = true
 } catch (e: any) {
   console.log('Error during preview worker registration:', e)
