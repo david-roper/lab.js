@@ -1,0 +1,26 @@
+{
+  "$schema": "https://unpkg.com/knip@3/schema.json",
+  "workspaces": {
+    "packages/builder": {
+      "entry": "packages/builder/src/main.tsx",
+      "project": "packages/builder/src/**/*.{js,jsx,ts,tsx}"
+    },
+    "packages/library": {
+      "entry": "packages/library/src/index.ts",
+      "project": "packages/library/src/**/*.{js,jsx,ts,tsx}"
+    }
+  },
+  "rules": {
+    "classMembers": "warn",
+    "dependencies": "warn",
+    "duplicates": "warn",
+    "enumMembers": "warn",
+    "exports": "warn",
+    "files": "warn",
+    "nsExports": "warn",
+    "nsTypes": "warn",
+    "types": "warn",
+    "unlisted": "warn",
+    "unresolved": "warn"
+  }
+}
