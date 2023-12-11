@@ -1,5 +1,5 @@
 {
-  "name": "lab.js.builder",
+  "name": "@lab.js/builder",
   "version": "23.0.0-alpha2",
   "private": true,
   "type": "module",

@@ -1,5 +1,5 @@
 {
-  "name": "lab.js.runner",
+  "name": "@lab.js/runner",
   "version": "0.1.0",
   "description": "Run in-browser experiments on the desktop",
   "main": "src/index.js",
