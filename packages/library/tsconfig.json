@@ -6,7 +6,7 @@
     "declarationMap": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "noEmit": false,
-    "outDir": "dist",
+    "outDir": "dist/es6",
     "paths": {
       "@/*": ["./src/*"]
     },
