@@ -1,7 +1,7 @@
 import { stripIndent } from 'common-tags'
 import { range } from 'lodash'
 import { Random } from '../../util/random'
-import { useNavigate } from 'react-router-dom'
+
 
 
 const makeAudioRecorder = () => {
@@ -12,10 +12,7 @@ const makeAttributes = (attrs = {}) =>
   Object.entries(attrs)
     .map(([attr, val]) => `${attr}="${JSON.stringify(val)}"`)
     .join(' ')
-const prevPage = () => {
 
-}
-const history = useNavigate()
 const makeFooter = ({
   submitButtonPosition = 'right',
   submitButtonText = 'Continue →',
@@ -24,6 +21,7 @@ const makeFooter = ({
 }) => {
   if (submitButtonPosition !== 'hidden') {
     if (backButtonPosition !== 'hidden'){
+      console.log('generating')
       return stripIndent`
       <footer
         class="
@@ -31,7 +29,7 @@ const makeFooter = ({
           content-vertical-center
         "
       >
-      <button type="button" onclick="history.back()" form="page-form" content-horizontal-${backButtonPosition}>
+      <button type="button"  onclick="window.history.go(-1); return false;" form="page-form" content-horizontal-${backButtonPosition}>
       ${backButtonText}
       </button>
        <button type="submit" form="page-form">
