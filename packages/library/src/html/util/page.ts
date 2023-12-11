@@ -21,7 +21,7 @@ const makeFooter = ({
 }) => {
   if (submitButtonPosition !== 'hidden') {
     if (backButtonPosition !== 'hidden'){
-      console.log('generating')
+      
       return stripIndent`
       <footer
         class="
