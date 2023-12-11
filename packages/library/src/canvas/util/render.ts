@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+
 import { toRadians } from '../../util/geometry'
 
 // Generic render function -----------------------------------------------------
@@ -98,7 +100,7 @@ const renderElement = (
     } else {
       // TODO: This wants to be abstracted out,
       // along with the analogous stroke function below.
-      content.text!.split('\n').forEach((lineContent, i, lines) => {
+      content.text.split('\n').forEach((lineContent, i, lines) => {
         ctx.fillText(
           lineContent,
           0,
@@ -116,7 +118,7 @@ const renderElement = (
     if (content.type !== 'i-text' && content.type !== 'text') {
       ctx.stroke()
     } else {
-      content.text!.split('\n').forEach((lineContent, i, lines) => {
+      content.text.split('\n').forEach((lineContent, i, lines) => {
         ctx.strokeText(
           lineContent,
           0,
@@ -133,7 +135,7 @@ const renderElement = (
 
 export const makeRenderFunction =
   (content: CanvasContent[] = [], cache: any) =>
-  (ts: number, canvas: HTMLCanvasElement, ctx: RenderingContext) => {
+  (_: number, canvas: HTMLCanvasElement, ctx: RenderingContext) => {
     // Ensure that the context is of the 2d type
     const context =
       ctx instanceof CanvasRenderingContext2D ? ctx : canvas.getContext('2d')

@@ -8,18 +8,11 @@
     "build": "vite build",
     "deploy": "node scripts/deploy.js",
     "dev": "vite",
-    "eject": "react-scripts eject",
     "start": "yarn run static:library && react-app-rewired start",
     "start:demo": "HTTPS=true PORT=443 DOMAIN=labjs.felixhenninger.com yarn start",
     "static:library": "shx mkdir -p public/api/_defaultStatic/lib/ && shx cp -R ../library/dist/labjs-starterkit/lib/* public/api/_defaultStatic/lib/",
     "test": "react-app-rewired test --env=jsdom"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@sentry/react": "^6.7.1",
@@ -36,7 +29,7 @@
     "htmlhint": "^1.1.4",
     "jszip": "^3.5.0",
     "konva": "^7.2.2",
-    "lab.js": "file:../library",
+    "lab.js": "*",
     "levenary": "^1.1.1",
     "localforage": "^1.9.0",
     "lodash": "^4.17.20",

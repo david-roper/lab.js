@@ -203,6 +203,7 @@ const parseCell = (contents: any) => {
       if (isPlainObject(contents)) {
         return truncate(JSON.stringify(contents))
       }
+      break
     default:
       return contents
   }
@@ -218,7 +219,7 @@ const renderStore = (datastore: Store) => {
   const header = keys.map(k => `<th>${k}</th>`)
 
   // Render state and store
-  //@ts-ignore FIXME: This shouldn't work, maybe make state public (this is also used elsewhere)
+  // @ts-expect-error - FIXME: This shouldn't work, maybe make state public (this is also used elsewhere)
   const state = keys.map(k => formatCell(datastore.state[k]))
   const store = datastore.data
     .slice() // copy before reversing in place
@@ -451,7 +452,7 @@ export default class Debug {
           const component =
             this.#context?.internals.controller.currentStack[index]
           // Trigger abort for this component
-          this.#context?.internals.controller.jump('abort', {
+          void this.#context?.internals.controller.jump('abort', {
             sender: component,
           })
         }
@@ -500,8 +501,8 @@ export default class Debug {
       datastore.on('update', throttledRender)
 
       if (window.sessionStorage.getItem('labjs-debug-snapshot')) {
-        const { target, data, state, keep } = JSON.parse(
-          //@ts-ignore TODO
+        const { target, data, state } = JSON.parse(
+          //@ts-expect-error TODO
           window.sessionStorage.getItem('labjs-debug-snapshot'),
         )
         await hydrate(this.#context!, { target, data, state })

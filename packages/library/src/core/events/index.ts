@@ -17,9 +17,9 @@ const splitEventString = function (
   let selector = null
 
   if (directHandlerRegEx.test(eventString)) {
-    ;[, eventName, selector] = directHandlerRegEx.exec(eventString)!
+    [, eventName, selector] = directHandlerRegEx.exec(eventString)!
   } else if (wrappedHandlerRegEx.test(eventString)) {
-    ;[, eventName, filterString, selector] =
+    [, eventName, filterString, selector] =
       wrappedHandlerRegEx.exec(eventString)!
     filters = filterString.split(',').map((o: string) => o.trim())
   } else {
@@ -71,7 +71,7 @@ const makeChecks = function (
     // spec, but would be trimmed here)
     const keys = filters.map(
       // (replace null value)
-      key => <string>keyValues[key] ?? key,
+      key => keyValues[key] ?? key,
     )
 
     // Wrap the handler only if we pre-select events
@@ -157,7 +157,10 @@ export class DomConnection {
   // Wrap event handlers such that a series of checks are applied
   // to each observed event, and the handler is triggered only
   // if all checks pass
-  wrapHandler(handler: Function, checks: Function[]) {
+  wrapHandler(
+    handler: (...args: any[]) => any,
+    checks: ((...args: any[]) => any)[],
+  ) {
     // Add context if desired
     if (this.context !== null) {
       handler = handler.bind(this.context)

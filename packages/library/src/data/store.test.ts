@@ -137,7 +137,7 @@ describe('Commit', () => {
       two: 2,
     })
     ds.commit()
-    //@ts-ignore private property
+    //@ts-expect-error - private property
     expect(ds.staging).toEqual({})
   })
 
@@ -254,7 +254,6 @@ describe('Metadata', () => {
 
   it('generates filenames', () => {
     const now = new Date('2018-05-25T12:00:00+00:00')
-    const clock = jest.useFakeTimers()
     jest.setSystemTime(now)
 
     // Compensate for time zone
@@ -281,7 +280,7 @@ describe('Reset', () => {
 
     expect(ds.data).toEqual([])
     expect(ds.state).toEqual({})
-    //@ts-ignore private property
+    //@ts-expect-error - private property
     expect(ds.staging).toEqual({})
   })
 })

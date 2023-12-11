@@ -45,7 +45,7 @@ export type ScreenOptions = ComponentOptions &
   typeof canvasDefaults
 
 export class Screen extends Component {
-  options!: ScreenOptions
+  declare options: ScreenOptions
 
   constructor(options: Partial<ScreenOptions> = {}) {
     super({
@@ -63,13 +63,13 @@ export class Screen extends Component {
 
   onPrepare() {
     // Add images to cached media
-    ;(this.options.content || [])
+    (this.options.content || [])
       .filter(
         <(c: CanvasContent) => c is Image>(
           (c => isObject(c) && c.type === 'image' && c.src !== undefined)
         ),
       )
-      .forEach(c => this.options.media!.images.push(c.src))
+      .forEach(c => this.options.media.images.push(c.src))
 
     // Prepare AOI event handling
     // Canvas.screen components implement one additional feature
@@ -98,7 +98,6 @@ export class Screen extends Component {
 
     if ('canvas' in context) {
       // Re-use canvas from surrounding context
-      //@ts-ignore we check for the presence of a canvas above
       this.internals.canvas = context.canvas
       this.internals.canvasAdded = false
     } else {

@@ -21,7 +21,7 @@ export const prePopulateCache = async () => {
   const cache = await caches.open(cacheName)
   await cache.addAll(
     bundledFiles.map(
-      path => `${import.meta.env.PUBLIC_URL}/api/_defaultStatic/${path}`,
+      path => `/api/_defaultStatic/${path}`,
     ),
   )
 }

@@ -9,7 +9,7 @@ import { EventName } from '../../../base/component'
 export const resolveFlip = <T>(oldStack: T[], newStack: T[]) => {
   // Figure out to which level the old and new stack are identical
   let firstDifference = 0
-  for (let i of range(Math.max(oldStack.length, newStack.length))) {
+  for (const i of range(Math.max(oldStack.length, newStack.length))) {
     if (oldStack[i] !== newStack[i]) {
       break
     } else {
@@ -36,8 +36,7 @@ type IteratorOutput = {
 }
 type IteratorInput = [any, object]
 
-export interface FlipIterator<T>
-  extends AsyncIterator<IteratorOutput, any, IteratorInput> {
+export type FlipIterator<T> = {
   initialize: () => Promise<void>
   splice: (level: number) => void
   findSplice: (value: T) => void
@@ -45,9 +44,9 @@ export interface FlipIterator<T>
   findReset: (value: T) => Promise<void>
   // NOTE: We index by id here, which is inconsistent
   // with the remainder of the interface.
-  fastForward: (targetStack: String[]) => Promise<void>
+  fastForward: (targetStack: string[]) => Promise<void>
   peek: () => stackSummary
-}
+} & AsyncIterator<IteratorOutput, any, IteratorInput>
 
 export class FlipIterable {
   root: Component
@@ -59,7 +58,7 @@ export class FlipIterable {
   constructor(root: Component) {
     this.root = root
     this.timelineIterable = new SliceIterable<Component>(
-      //@ts-ignore TODO
+      //@ts-expect-error - TODO
       root,
       async (c: Component) => {
         if (c.status < Status.prepared) {
@@ -74,7 +73,7 @@ export class FlipIterable {
 
   [Symbol.asyncIterator](): FlipIterator<Component> {
     const sliceIterator = this.timelineIterable[Symbol.asyncIterator]()
-    let currentStack: Component[] = []
+    const currentStack: Component[] = []
     let lockPromises: Promise<any>[] = []
 
     return {
@@ -86,19 +85,19 @@ export class FlipIterable {
         this.renderFrameRequest && cancelAnimationFrame(this.renderFrameRequest)
         this.showFrameRequest && cancelAnimationFrame(this.showFrameRequest)
 
-        let oldStack = [...currentStack]
+        const oldStack = [...currentStack]
         let incoming: Component[]
         let outgoing: Component[]
-        let cancelled: Component[] = []
+        const cancelled: Component[] = []
 
         // Wait for previous components to lock before flipping
         await Promise.all(lockPromises)
 
         // Components can abort a flip. We keep on going until we have performed
         // one full flip.
+        // eslint-disable-next-line no-constant-condition
         flipLoop: while (true) {
           // Keep track of success (unreasonably optimistically)
-          let success = true
 
           // Compute the next stack
           let { value: nextStack } = await sliceIterator.next()
@@ -117,6 +116,7 @@ export class FlipIterable {
             try {
               c.internals.emitter.off(
                 EventName.endUncontrolled,
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 triggerContinue,
               )
               currentStack.pop()
@@ -132,6 +132,7 @@ export class FlipIterable {
           // Start all incoming components, starting from the top of the stack
           for (const c of incoming) {
             try {
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               c.internals.emitter.on(EventName.endUncontrolled, triggerContinue)
               context = c.enterContext(context)
               currentStack.push(c)
@@ -197,13 +198,13 @@ export class FlipIterable {
       findSplice: sliceIterator.findSplice,
       reset: sliceIterator.reset,
       findReset: sliceIterator.findReset,
-      fastForward: async (targetStack: String[]) => {
+      fastForward: async (targetStack: string[]) => {
         // Note that the level here is shifted, in that we never
         // fast-forward on the level of the root node.
         // Instead, we search inside the top-level iterator
         // for the second-level node, and so on.
         await sliceIterator.fastForward(
-          //@ts-ignore
+          //@ts-expect-error - LEGACY
           (c: Component, level) => {
             // If we're jumping, we usually expect a fully
             // specified target id stack, i.e. the happy path

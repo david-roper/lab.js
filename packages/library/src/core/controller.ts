@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export interface ControllerGlobal {
+export type ControllerGlobal = {
   rootEl: Element
   datastore: Store<Row>
   state: Row
@@ -37,7 +37,7 @@ export interface ControllerGlobal {
  * @internal
  */
 export class Controller extends BaseController<Component> {
-  global!: ControllerGlobal
+  declare global: ControllerGlobal
 
   /**
    * Create a new controller

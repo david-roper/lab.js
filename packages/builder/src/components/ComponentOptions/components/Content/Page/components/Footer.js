@@ -9,10 +9,10 @@ import Icon from '../../../../../Icon'
 
 const Item = ({ onClick, disabled, children }) =>
   <DropdownItem
-    onClick={ onClick }
-    disabled={ disabled }
+    onClick={onClick}
+    disabled={disabled}
   >
-    { children }
+    {children}
   </DropdownItem>
 
 const AddWidget = ({ addItem: defaultAddItem }) => {
@@ -22,8 +22,8 @@ const AddWidget = ({ addItem: defaultAddItem }) => {
   return (
     <ButtonDropdown
       direction="down"
-      isOpen={ dropdownOpen }
-      toggle={ () => setDropdownOpen(!dropdownOpen) }
+      isOpen={dropdownOpen}
+      toggle={() => setDropdownOpen(!dropdownOpen)}
       className="w-100"
     >
       <DropdownToggle
@@ -49,20 +49,29 @@ const AddWidget = ({ addItem: defaultAddItem }) => {
             <DropdownItem header>
               Content
             </DropdownItem>
-            <Item onClick={ () => addItem({ type: 'text' }) }>
+            <Item onClick={() => addItem({ type: 'text' })}>
               Text <span className="text-muted">/ Instructions</span>
             </Item>
-            <Item onClick={ () => addItem({ type: 'image' }) }>
+
+            {/* Adding a audio recorder component here */}
+            <Item
+              onClick={() => addItem({ type: 'audio' })} >
+              Audio Recording
+            </Item>
+            {/* end of adding component */}
+
+
+            <Item onClick={() => addItem({ type: 'image' })}>
               Image
             </Item>
-            <Item onClick={ () => addItem({ type: 'divider' }) }>
+            <Item onClick={() => addItem({ type: 'divider' })}>
               Divider
             </Item>
             <DropdownItem divider />
             <DropdownItem header>
               Advanced
             </DropdownItem>
-            <Item onClick={ () => addItem({ type: 'html' }) }>
+            <Item onClick={() => addItem({ type: 'html' })}>
               Raw <code className="text-body">HTML</code>
             </Item>
           </Col>
@@ -70,20 +79,20 @@ const AddWidget = ({ addItem: defaultAddItem }) => {
             <DropdownItem header>
               Free-form input
             </DropdownItem>
-            <Item onClick={ () => addItem({ type: 'input' }) }>
+            <Item onClick={() => addItem({ type: 'input' })}>
               Single-line
             </Item>
-            <Item onClick={ () => addItem({ type: 'textarea' }) }>
+            <Item onClick={() => addItem({ type: 'textarea' })}>
               Multi-line
             </Item>
             <DropdownItem divider />
             <DropdownItem header>
               Structured input
             </DropdownItem>
-            <Item onClick={ () => addItem({ type: 'radio' }) }>
+            <Item onClick={() => addItem({ type: 'radio' })}>
               Multiple choice
             </Item>
-            <Item onClick={ () => addItem({ type: 'checkbox' }) }>
+            <Item onClick={() => addItem({ type: 'checkbox' })}>
               Check all that apply
             </Item>
           </Col>
@@ -91,19 +100,19 @@ const AddWidget = ({ addItem: defaultAddItem }) => {
             <DropdownItem header>
               Ranges
             </DropdownItem>
-            <Item onClick={ () => addItem({ type: 'slider' }) }>
+            <Item onClick={() => addItem({ type: 'slider' })}>
               Slider
             </Item>
-            <Item disabled={ true }>
+            <Item disabled={true}>
               Visual analogue scale
             </Item>
             <Item
-              onClick={ () => addItem({
+              onClick={() => addItem({
                 type: 'likert',
                 items: [],
                 width: 5,
                 anchors: [],
-              }) }
+              })}
             >
               Likert scale
             </Item>
@@ -118,8 +127,8 @@ export default ({ columns, addItem }) =>
   <tfoot>
     <tr>
       <td />
-      <td colSpan={ columns.length }>
-        <AddWidget addItem={ addItem } />
+      <td colSpan={columns.length}>
+        <AddWidget addItem={addItem} />
       </td>
       <td />
     </tr>

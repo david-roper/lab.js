@@ -6,13 +6,13 @@ import { serialize } from './util/form'
 // An html.Form can show, validate and serialize a form
 
 const formDefaults = {
-  validator: <(data: object) => Boolean>(() => true),
+  validator: <(data: object) => boolean>(() => true),
 }
 
 export type FormOptions = ScreenOptions & typeof formDefaults
 
 export class Form extends Screen {
-  options!: FormOptions
+  declare options: FormOptions
 
   constructor(options: Partial<FormOptions> = {}) {
     super({
@@ -29,7 +29,7 @@ export class Form extends Screen {
     // but it will help push users toward standard-conformant
     // behavior so that the polyfill can be removed safely
     // at some point in the future.
-    this.options.events!['click button[type="submit"]'] = e => {
+    this.options.events['click button[type="submit"]'] = e => {
       // If the button references another form...
       if ((<HTMLButtonElement>e.target).getAttribute('form')) {
         // ... find it and ...
@@ -59,7 +59,7 @@ export class Form extends Screen {
     }
 
     // Capture form submissions
-    this.options.events!['submit form'] = e => this.submit(e)
+    this.options.events['submit form'] = e => this.submit(e)
   }
 
   onRun() {
@@ -86,18 +86,18 @@ export class Form extends Screen {
       Object.assign(this.data, this.serialize())
 
       // Bye!
-      this.end('form submission')
+      void this.end('form submission')
     } else {
       // Mark form(s) as validated, but leave
       // the display unchanged otherwise
       // (an array conversion is needed here for IE
       // and older browsers, who do not implement
       // forEach on NodeLists)
-      ;(
+      (
         Array.from(
           this.internals.context.el.querySelectorAll('form'),
-        ) as HTMLFormElement[]
-      ).forEach(f => f.setAttribute('data-labjs-validated', ''))
+        ) 
+      ).forEach((f: any) => f.setAttribute('data-labjs-validated', ''))
     }
 
     // Prevent default form behavior
