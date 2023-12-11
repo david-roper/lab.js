@@ -21,7 +21,7 @@ const createZip = async ({ files, bundledFiles }) => {
     // Add library static files to bundle
     Object.entries(bundledFiles).map(([path, data]) =>
       fetch(
-        `${import.meta.env.PUBLIC_URL}/api/_defaultStatic/${data.source}`,
+        `/api/_defaultStatic/${data.source}`,
       ).then(data => zip.file(path, data.blob())),
     ),
   )

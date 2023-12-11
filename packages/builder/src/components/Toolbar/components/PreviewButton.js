@@ -74,8 +74,8 @@ export default class PreviewButton extends Component {
       if (error.name === 'QuotaExceededError') {
         alert(
           "Sorry, we couldn't generate the preview because " +
-            "the browser wouldn't allow us to use storage space. " +
-            "Could you check whether there's room on your hard drive?",
+          "the browser wouldn't allow us to use storage space. " +
+          "Could you check whether there's room on your hard drive?",
         )
       } else {
         console.log(`Received error while generating preview: ${error}`)
@@ -85,7 +85,7 @@ export default class PreviewButton extends Component {
         })
         alert(
           'Sorry, an error occured while we were trying ' +
-            `to put together the study preview: ${error}`,
+          `to put together the study preview: ${error}`,
         )
       }
     }

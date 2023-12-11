@@ -9,9 +9,12 @@ import Radio from './components/Radio'
 import Checkbox from './components/Checkbox'
 import Slider from './components/Slider'
 import Likert from './components/Likert'
+import AudioRecorder from './components/AudioRecorder'
 
 const selectItem = (type) => {
   switch(type) {
+    case 'audio':
+      return AudioRecorder
     case 'text':
       return Text
     case 'image':
