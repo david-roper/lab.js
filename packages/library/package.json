@@ -12,48 +12,49 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/es6/index.js",
+      "types": "./dist/es6/index.d.ts"
     },
     "./canvas": {
-      "import": "./dist/canvas/index.js",
-      "types": "./dist/canvas/index.d.ts"
+      "import": "./dist/es6/canvas/index.js",
+      "types": "./dist/es6/canvas/index.d.ts"
     },
     "./core": {
-      "import": "./dist/core/index.js",
-      "types": "./dist/core/index.d.ts"
+      "import": "./dist/es6/core/index.js",
+      "types": "./dist/es6/core/index.d.ts"
     },
     "./css": {
       "import": "./dist/css/lab.css",
       "require": "./dist/css/lab.css"
     },
     "./data": {
-      "import": "./dist/data/index.js",
-      "types": "./dist/data/index.d.ts"
+      "import": "./dist/es6/data/index.js",
+      "types": "./dist/es6/data/index.d.ts"
     },
     "./flow": {
-      "import": "./dist/flow/index.js",
-      "types": "./dist/flow/index.d.ts"
+      "import": "./dist/es6/flow/index.js",
+      "types": "./dist/es6/flow/index.d.ts"
     },
     "./html": {
-      "import": "./dist/html/index.js",
-      "types": "./dist/html/index.d.ts"
+      "import": "./dist/es6/html/index.js",
+      "types": "./dist/es6/html/index.d.ts"
     },
     "./plugins": {
-      "import": "./dist/plugins/index.js",
-      "types": "./dist/plugins/index.d.ts"
+      "import": "./dist/es6/plugins/index.js",
+      "types": "./dist/es6/plugins/index.d.ts"
     },
     "./util": {
-      "import": "./dist/util/index.js",
-      "types": "./dist/util/index.d.ts"
+      "import": "./dist/es6/util/index.js",
+      "types": "./dist/es6/util/index.d.ts"
     }
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/es6/index.js",
+  "types": "dist/es6/index.d.ts",
   "scripts": {
     "build": "yarn build:js && yarn build:css",
     "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/css/lab.css src/starterkit/lib/lab.css",
     "build:js": "tsc",
+    "build:umd": "",
     "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
     "dev": "concurrently \"yarn dev:css\" \"yarn dev:js\"",
