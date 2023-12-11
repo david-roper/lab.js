@@ -6,7 +6,9 @@ import { makePage, PageItem, ImageItem } from './util/page'
 const pageDefaults = {
   items: <PageItem[]>[],
   submitButtonText: 'Continue →',
+  backButtonText: '← Back',
   submitButtonPosition: <'left' | 'right' | 'center'>'right',
+  backButtonPosition: <'left' | 'right' | 'center'>'left',
   width: <'s' | 'm' | 'l'>'m',
   scrollTop: true,
 }
@@ -26,6 +28,8 @@ export class Page extends Form {
   onPrepare() {
     // Generate content
     this.options.content = makePage(this.options.items, {
+      backButtonText: this.options.backButtonText,
+      backButtonPosition: this.options.backButtonPosition,
       submitButtonText: this.options.submitButtonText,
       submitButtonPosition: this.options.submitButtonPosition,
       width: this.options.width,

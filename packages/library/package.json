@@ -73,6 +73,7 @@
     "file-saver": "^2.0.5",
     "jszip": "^3.10.0",
     "lodash": "^4.17.10",
+    "react-router-dom": "^6.20.1",
     "seedrandom": "^3.0.5",
     "shim-keyboard-event-key": "^1.0.2",
     "ua-parser-js": "^1.0.2"

@@ -1,6 +1,8 @@
 import { stripIndent } from 'common-tags'
 import { range } from 'lodash'
 import { Random } from '../../util/random'
+import { useNavigate } from 'react-router-dom'
+
 
 const makeAudioRecorder = () => {
 
@@ -10,12 +12,35 @@ const makeAttributes = (attrs = {}) =>
   Object.entries(attrs)
     .map(([attr, val]) => `${attr}="${JSON.stringify(val)}"`)
     .join(' ')
+const prevPage = () => {
 
+}
+const history = useNavigate()
 const makeFooter = ({
   submitButtonPosition = 'right',
   submitButtonText = 'Continue →',
+  backButtonPosition = 'left',
+  backButtonText = '← Back'
 }) => {
   if (submitButtonPosition !== 'hidden') {
+    if (backButtonPosition !== 'hidden'){
+      return stripIndent`
+      <footer
+        class="
+          content-horizontal-${submitButtonPosition}
+          content-vertical-center
+        "
+      >
+      <button type="button" onclick="history.back()" form="page-form" content-horizontal-${backButtonPosition}>
+      ${backButtonText}
+      </button>
+       <button type="submit" form="page-form">
+          ${submitButtonText}
+      </button>
+       
+      </footer>
+    `
+    }
     return stripIndent`
       <footer
         class="
@@ -28,7 +53,8 @@ const makeFooter = ({
         </button>
       </footer>
     `
-  } else {
+  }
+  else {
     return ''
   }
 }
@@ -325,6 +351,8 @@ type PageOptions = {
   width: 's' | 'm' | 'l' | 'xl'
   submitButtonText: string
   submitButtonPosition: 'left' | 'right' | 'center' | 'hidden'
+  backButtonText: string
+  backButtonPosition: 'left' | 'right' | 'center' | 'hidden'
 }
 
 // Base items ------------------------------------------------------------------

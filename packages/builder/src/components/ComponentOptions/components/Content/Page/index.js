@@ -53,7 +53,7 @@ const Footer = () => {
                   <Field
                       name="backButtonText"
                       component={ Input }
-                      placeholder="← Back"
+                      placeholder="Back button text"
                       default="← Back"
                       disabled={ values.submitButtonPosition === 'hidden' }
                     />
@@ -81,7 +81,7 @@ const Footer = () => {
                       className="form-control custom-select"
                       as="select"
                     >
-                      <option value="right">
+                      <option value="left">
                         Show back button
                       </option>
                       <option value="hidden">
@@ -160,6 +160,7 @@ export default ({ id, data }) =>
       keys={ [
         'items',
         'submitButtonText', 'submitButtonPosition',
+        'backButtonText', 'backButtonPosition',
         'width'
       ] }
       validateOnChange={ false }
