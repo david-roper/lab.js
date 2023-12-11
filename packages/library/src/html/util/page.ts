@@ -2,6 +2,10 @@ import { stripIndent } from 'common-tags'
 import { range } from 'lodash'
 import { Random } from '../../util/random'
 
+const makeAudioRecorder = () => {
+
+}
+
 const makeAttributes = (attrs = {}) =>
   Object.entries(attrs)
     .map(([attr, val]) => `${attr}="${JSON.stringify(val)}"`)
@@ -83,14 +87,14 @@ const makeLikertHead = ({ width, anchors }: LikertItem) => {
       <thead class="sticky-top">
         <th class="sticky-top"></th>
         ${range(width)
-          .map(
-            j => stripIndent`
+        .map(
+          j => stripIndent`
             <th class="sticky-top text-center small">
               ${anchors[j] || ''}
             </th>
           `,
-          )
-          .join('\n')}
+        )
+        .join('\n')}
       </thead>
     `
   }
@@ -106,8 +110,8 @@ const makeLikertRow = (
         ${label}
       </td>
       ${range(1, Number(width) + 1)
-        .map(
-          i => stripIndent`
+      .map(
+        i => stripIndent`
           <td class="text-center">
             <label style="height: 100%; padding: 10px 0">
               <input type="radio"
@@ -117,8 +121,8 @@ const makeLikertRow = (
             </label>
           </td>
         `,
-        )
-        .join('\n')}
+      )
+      .join('\n')}
     </tr>
   `
 
@@ -138,8 +142,8 @@ export const makePage = (items: PageItem[], options: PageOptions) => {
       <div class="w-${options.width || 'm'} text-left">
         <form id="page-form" style="display: block;" autocomplete="off">
           ${items
-            .map(i => processItem(i, { shuffleMeMaybe, ...options }))
-            .join('\n')}
+      .map(i => processItem(i, { shuffleMeMaybe, ...options }))
+      .join('\n')}
         </form>
       </div>
     </main>
@@ -157,6 +161,7 @@ export const processItem = (
         <div class="page-item page-item-text">
           <h3>${i.title || ''}</h3>
           ${i.content || ''}
+          <h1>hello world!!!!</h1>
         </div>
       `
     case 'image':
@@ -230,8 +235,8 @@ export const processItem = (
             </colgroup>
             <tbody>
               ${shuffleMeMaybe(i.options || [], i.shuffle)
-                .map((o: BaseOption) => makeOptionRow(o, i, 'radio'))
-                .join('\n')}
+          .map((o: BaseOption) => makeOptionRow(o, i, 'radio'))
+          .join('\n')}
             </tbody>
           </table>
         </div>
@@ -252,8 +257,8 @@ export const processItem = (
             </colgroup>
             <tbody>
               ${shuffleMeMaybe(i.options || [], i.shuffle)
-                .map((o: BaseOption) => makeOptionRow(o, i, 'checkbox'))
-                .join('\n')}
+          .map((o: BaseOption) => makeOptionRow(o, i, 'checkbox'))
+          .join('\n')}
             </tbody>
           </table>
         </div>
@@ -287,20 +292,26 @@ export const processItem = (
             <colgroup>
               <col style="width: 40%">
               ${range(i.width)
-                .map(() => `<col style="width: ${60 / i.width}%">`)
-                .join('\n')}
+          .map(() => `<col style="width: ${60 / i.width}%">`)
+          .join('\n')}
             </colgroup>
             ${makeLikertHead(i)}
             <tbody>
               ${shuffleMeMaybe(i.items || [], i.shuffle)
-                .map((item: { label: string; coding: string }) =>
-                  makeLikertRow(item, i),
-                )
-                .join('\n')}
+          .map((item: { label: string; coding: string }) =>
+            makeLikertRow(item, i),
+          )
+          .join('\n')}
             </tbody>
           </table>
         </div>
       `
+    case 'audio':
+      return stripIndent`
+          <div class="page-item page-item-text">
+            ${makeAudioRecorder()}
+          </div>
+        `
     default:
       console.error('Unknown page item type')
       return null
@@ -392,6 +403,10 @@ type LikertItem = BaseItem & {
   shuffle: boolean
 }
 
+type AudioItem = BaseItem & {
+  type: 'audio'
+}
+
 export type PageItem =
   | TextItem
   | HTMLItem
@@ -403,3 +418,4 @@ export type PageItem =
   | CheckboxItem
   | SliderItem
   | LikertItem
+  | AudioItem
