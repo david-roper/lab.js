@@ -6,13 +6,18 @@ import { FieldArray, useFormikContext, getIn } from 'formik'
 
 const ArrayContext = createContext({})
 
-const ArrayContextProvider = ({ name, values,
-  arrayHelpers, setValues, setFieldValue, ...props
+const ArrayContextProvider = ({
+  name,
+  values,
+  arrayHelpers,
+  setValues,
+  setFieldValue,
+  ...props
 }) => {
+  // Return an empty array if getIn returns undefined
   const getRows = () => getIn(values, name) ?? []
 
-  const overwriteRows = (newValue) =>
-    setFieldValue(name, newValue)
+  const overwriteRows = newValue => setFieldValue(name, newValue)
 
   // TODO: A fair amount of these helper functions are grid-specific.
   // Maybe it might be worth investigating splitting them out
@@ -23,45 +28,51 @@ const ArrayContextProvider = ({ name, values,
       ...values,
       [baseName]: {
         ...getIn(values, baseName),
-        rows, columns,
+        rows,
+        columns,
       },
     })
   }
 
-  const dispatch = (f) => {
+  const dispatch = f => {
     const columnName = name.replace('.rows', '.columns')
 
-    overwriteAll(...f(
-      getIn(values, name) ?? [],
-      getIn(values, columnName) ?? [],
-    ))
+    overwriteAll(
+      ...f(getIn(values, name) ?? [], getIn(values, columnName) ?? []),
+    )
   }
 
   const addRow = () => arrayHelpers.push([])
 
-  const mapRows = (f) =>
-    overwriteRows(getRows().map(f))
+  const mapRows = f => overwriteRows(getRows().map(f))
 
   const addColumn = (defaultCell, defaultColumn) =>
-    dispatch((rows, columns) => ([
+    dispatch((rows, columns) => [
       rows.map(row => [...row, defaultCell]),
       [...columns, defaultColumn],
-    ]))
+    ])
 
-  const deleteColumn = (index) =>
-    dispatch((rows, columns) => ([
+  const deleteColumn = index =>
+    dispatch((rows, columns) => [
       rows.map(row => row.filter((_, i) => i !== index)),
       columns.filter((_, i) => i !== index),
-    ]))
+    ])
 
-  const clearColumn = (index) =>
+  const deleteAllRows = () => {
+    const rows = getRows()
+    for (let i = rows.length - 1; i >= 0; i--) {
+      arrayHelpers.remove(i)
+    }
+  }
+
+  const clearColumn = index =>
     mapRows(row => {
       const output = [...row]
       output[index] = ''
       return output
     })
 
-  const fillColumn = (index) => {
+  const fillColumn = index => {
     // Gather cells with content
     const availableCells = getRows()
       .map(r => r[index])
@@ -69,18 +80,27 @@ const ArrayContextProvider = ({ name, values,
 
     return mapRows((r, rowIndex) => {
       const output = [...r]
-      output[index] = output[index] ||
-        availableCells[rowIndex % availableCells.length]
+      output[index] =
+        output[index] || availableCells[rowIndex % availableCells.length]
       return output
     })
   }
 
   return (
     <ArrayContext.Provider
-      value={{ setValues, setFieldValue, dispatch, overwriteAll,
-        addRow, addColumn, clearColumn, fillColumn, deleteColumn
+      value={{
+        setValues,
+        setFieldValue,
+        dispatch,
+        overwriteAll,
+        addRow,
+        addColumn,
+        clearColumn,
+        deleteAllRows,
+        fillColumn,
+        deleteColumn,
       }}
-      { ...props }
+      {...props}
     />
   )
 }
@@ -90,49 +110,53 @@ export const useArrayContext = () => useContext(ArrayContext)
 // Basic form array ------------------------------------------------------------
 
 export const FormArray = ({
-  name, item: Item,
+  name,
+  item: Item,
   header: Header,
   footer: Footer,
-  wrapper: Wrapper=Fragment, wrapperProps,
-  bodyWrapper: BodyWrapper=Fragment,
-  globalProps={},
-  defaultItem={},
+  wrapper: Wrapper = Fragment,
+  wrapperProps,
+  bodyWrapper: BodyWrapper = Fragment,
+  globalProps = {},
+  defaultItem = {},
 }) => {
-  const { values, setFieldValue, setValues }  = useFormikContext()
+  const { values, setFieldValue, setValues } = useFormikContext()
   const rows = getIn(values, name)
 
   return (
-    <FieldArray name={ name }>
-      {
-        arrayHelpers => <Wrapper { ...wrapperProps }>
+    <FieldArray name={name}>
+      {arrayHelpers => (
+        <Wrapper {...wrapperProps}>
           <ArrayContextProvider
-            name={ name }
-            values={ values }
-            arrayHelpers={ arrayHelpers }
-            setValues={ setValues }
-            setFieldValue={ setFieldValue }
+            name={name}
+            values={values}
+            arrayHelpers={arrayHelpers}
+            setValues={setValues}
+            setFieldValue={setFieldValue}
           >
-            { Header && <Header { ...globalProps } /> }
+            {Header && <Header {...globalProps} />}
             <BodyWrapper>
-              {
-                (rows || []).map(
-                  (data, index) =>
-                    <Item
-                      key={ `${ name }[${ index }]` }
-                      name={ `${ name }[${ index }]` }
-                      index={ index }
-                      isLastItem={ index === rows.length - 1 }
-                      data={ data }
-                      arrayHelpers={ arrayHelpers }
-                      { ...globalProps }
-                    />
-                )
-              }
+              {(rows || []).map((data, index) => (
+                <Item
+                  key={`${name}[${index}]`}
+                  name={`${name}[${index}]`}
+                  index={index}
+                  isLastItem={index === rows.length - 1}
+                  data={data}
+                  arrayHelpers={arrayHelpers}
+                  {...globalProps}
+                />
+              ))}
             </BodyWrapper>
-            { Footer && <Footer addItem={ (item) => arrayHelpers.push(item || defaultItem) } { ...globalProps } /> }
+            {Footer && (
+              <Footer
+                addItem={item => arrayHelpers.push(item || defaultItem)}
+                {...globalProps}
+              />
+            )}
           </ArrayContextProvider>
         </Wrapper>
-      }
+      )}
     </FieldArray>
   )
 }
