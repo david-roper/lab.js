@@ -3,8 +3,6 @@
 Examples & recipes
 ==================
 
-----
-
 Recipes
 -------
 
