@@ -165,7 +165,8 @@ export class DomConnection {
     if (this.context !== null) {
       handler = handler.bind(this.context)
     }
-
+    console.log(this.context)
+    console.log(handler)
     // Only trigger handler if all checks pass
     return (e: Event) =>
       checks.reduce((acc, check) => acc && check(e, this.context), true)

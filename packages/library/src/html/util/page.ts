@@ -29,7 +29,7 @@ const makeFooter = ({
           content-vertical-center
         "
       >
-      <button type="button"  onclick="window.history.go(-1); return false;" form="page-form" content-horizontal-${backButtonPosition}>
+      <button type="button"  onclick="" form="page-form" content-horizontal-${backButtonPosition}>
       ${backButtonText}
       </button>
        <button type="submit" form="page-form">
