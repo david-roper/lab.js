@@ -35,7 +35,7 @@ import sphinx_rtd_theme
 # ones.
 extensions = [
     'rst_video',
-    'sphinxcontrib.redirects'
+    'sphinx_reredirects',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -300,4 +300,6 @@ texinfo_documents = [
 
 # -- Custom options -------------------------------------------------------
 
-redirects_file = 'redirects.txt'
+redirects = {
+     "reference/style.rst": "learn/css/style.rst"
+}
