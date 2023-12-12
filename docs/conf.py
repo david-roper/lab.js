@@ -35,7 +35,7 @@ import sphinx_rtd_theme
 # ones.
 extensions = [
     'rst_video',
-    'sphinxcontrib.redirects'
+    'sphinx_reredirects',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -71,7 +71,7 @@ release = '23.0.0-alpha2'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -300,4 +300,6 @@ texinfo_documents = [
 
 # -- Custom options -------------------------------------------------------
 
-redirects_file = 'redirects.txt'
+redirects = {
+     "reference/style.rst": "learn/css/style.rst"
+}
